@@ -1,0 +1,19 @@
+# Unity rác và file tạm
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]serSettings/
+
+# File của Visual Studio (Máy nào tự sinh máy đó dùng)
+*.csproj
+*.sln
+*.user
+*.userprefs
+.vs/
+
+# File rác hệ thống
+.DS_Store
+Thumbs.db
