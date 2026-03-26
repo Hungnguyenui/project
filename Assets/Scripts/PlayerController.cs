@@ -4,7 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float forwardSpeed = 15f;
-    public float speedMultiplier = 1.05f; 
+    public float speedMultiplier = 1.05f;
 
     [Header("Color Settings")]
     public Material[] colors;
@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
-
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             currentColorIndex = (currentColorIndex + 1) % colors.Length;
@@ -36,7 +35,6 @@ public class PlayerController : MonoBehaviour
         playerRenderer.material = colors[index];
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Obstacle"))
@@ -46,8 +44,11 @@ public class PlayerController : MonoBehaviour
             if (obstacle != null && obstacle.ColorIndex == currentColorIndex)
             {
                 GameManager.Instance.AddScore(1);
-                forwardSpeed *= speedMultiplier; 
-                Destroy(other.gameObject); 
+
+           
+                forwardSpeed = Mathf.Min(forwardSpeed * speedMultiplier, 40f);
+
+                Destroy(other.gameObject);
             }
             else
             {

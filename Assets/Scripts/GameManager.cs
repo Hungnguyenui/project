@@ -4,12 +4,11 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
- 
     public static GameManager Instance { get; private set; }
 
     public int Score { get; private set; }
+    public int HighScore { get; private set; }
     public bool IsGameOver { get; private set; }
-
 
     public Action<int> OnScoreChanged;
     public Action OnGameOver;
@@ -18,19 +17,35 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+      
+        HighScore = PlayerPrefs.GetInt("BestScore", 0);
+    }
+
+    private void Start()
+    {
+      
     }
 
     public void AddScore(int points)
     {
         if (IsGameOver) return;
         Score += points;
-        OnScoreChanged?.Invoke(Score); 
+        OnScoreChanged?.Invoke(Score);
     }
 
     public void EndGame()
     {
         IsGameOver = true;
-        OnGameOver?.Invoke(); 
+
+        if (Score > HighScore)
+        {
+            HighScore = Score;
+            PlayerPrefs.SetInt("BestScore", HighScore);
+            PlayerPrefs.Save();
+        }
+
+        OnGameOver?.Invoke();
     }
 
     public void RestartLevel()
