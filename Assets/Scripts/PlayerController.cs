@@ -21,9 +21,21 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.IsGameOver) return;
 
+        if (!GameManager.Instance.isGameStarted)
+        {
+
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+            {
+                GameManager.Instance.StartGame();
+            }
+            return; 
+        }
+
+
         transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+ 
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
             currentColorIndex = (currentColorIndex + 1) % colors.Length;
             ChangeColor(currentColorIndex);
@@ -44,10 +56,7 @@ public class PlayerController : MonoBehaviour
             if (obstacle != null && obstacle.ColorIndex == currentColorIndex)
             {
                 GameManager.Instance.AddScore(1);
-
-           
-                forwardSpeed = Mathf.Min(forwardSpeed * speedMultiplier, 40f);
-
+                forwardSpeed = Mathf.Min(forwardSpeed * speedMultiplier, 50f);
                 Destroy(other.gameObject);
             }
             else

@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     public int HighScore { get; private set; }
     public bool IsGameOver { get; private set; }
 
+
+    public bool isGameStarted = false;
+    public GameObject mainMenuPanel;
+
     public Action<int> OnScoreChanged;
     public Action OnGameOver;
 
@@ -18,13 +22,26 @@ public class GameManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-      
         HighScore = PlayerPrefs.GetInt("BestScore", 0);
     }
 
     private void Start()
     {
-      
+
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.SetActive(true);
+        }
+    }
+
+
+    public void StartGame()
+    {
+        isGameStarted = true;
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.SetActive(false); 
+        }
     }
 
     public void AddScore(int points)
